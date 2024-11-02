@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+
+<head>
+    <style type="text/css">
+        .header{
+            text-align: center;
+            background-color: rgb(136, 185, 229);
+            height: 70px;
+            line-height: 70px;
+        }
+        .chart{
+            margin-top: 30px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <h2>
+            Plotly Chart Demo
+        </h2>
+    </div>
+
+    <div id="chart3" class="chart">
+    </div>
+
+    <div id="chart" class="chart">
+    </div>
+
+    <div id="chart2" class="chart">
+    </div>
+
+
+</body>
+
+    <!-- D3.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <!-- Plotly.js -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+    <script type="text/javascript">
+        
+        var graphs = {{graphJSON | safe}};
+        var graphs2 = {{graphJSON2 | safe}};
+        var graphs3 = {{graphJSON3 | safe}};
+        var layout = {
+		  title: 'Humidity',
+		  xaxis: {
+			title: 'x-axis title'
+		  },
+		  yaxis: {
+			title: 'y-axis title'
+		  }
+		};
+        var layout2 = {
+                  title: 'Temperature',
+                  xaxis: {
+                        title: 'x-axis title'
+                  },
+                  yaxis: {
+                        title: 'y-axis title'
+                  }
+                };
+        var layout3 = {
+                  title: 'Outside Temperature',
+                  xaxis: {
+                        title: 'x-axis title'
+                  },
+                  yaxis: {
+                        title: 'y-axis title'
+                  }
+                };
+
+       
+        Plotly.newPlot('chart',graphs,layout);        
+        Plotly.newPlot('chart2',graphs2,layout2);
+        Plotly.newPlot('chart3',graphs3,layout3);
+    </script>
+
+</html>
