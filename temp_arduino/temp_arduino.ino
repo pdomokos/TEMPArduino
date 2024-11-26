@@ -1,11 +1,10 @@
 #include <AM2302-Sensor.h>
 
-constexpr unsigned int SENSOR_PIN {2U};
-constexpr unsigned int SENSOR_PIN_2 {3U};
-constexpr unsigned int PIR_SENSOR_PIN {4U};
+constexpr unsigned int PIR_SENSOR_PIN {2U};
+constexpr unsigned int SENSOR_PIN {3U};
+constexpr unsigned int L_DET_PIN {4U};
 
 AM2302::AM2302_Sensor am2302{SENSOR_PIN};
-AM2302::AM2302_Sensor am2302_2{SENSOR_PIN_2};
 
 //Thermometer with thermistor
 
@@ -27,6 +26,7 @@ AM2302::AM2302_Sensor am2302_2{SENSOR_PIN_2};
 
 const long interval = 10000;
 float RT, VR, ln, TX,  T0, VRT;
+bool dhtInitialized = false;
 
 float readThermistor(int i);
 
@@ -38,29 +38,27 @@ void setup() {
       yield();
    }
 
-   am2302.begin();
-   am2302_2.begin();
+   int initStatus = am2302.begin();
+   if (initStatus == 0) {
+      dhtInitialized = true; 
+   } 
    delay(3000);
 
 }
 
 void loop() {
-   auto status = am2302.read();
-   auto status_2 = am2302_2.read();
+    if (dhtInitialized){
+      auto status = am2302.read();
 
-   Serial.print("DHT1_T:");
-   Serial.print(am2302.get_Temperature());
-   Serial.print("#");
-   Serial.print("DHT1_H:");
-   Serial.print(am2302.get_Humidity());
-   Serial.print("#");
-
-   Serial.print("DHT2_T:");
-   Serial.print(am2302_2.get_Temperature());
-   Serial.print("#");
-   Serial.print("DHT2_H:");
-   Serial.print(am2302_2.get_Humidity());
-   Serial.print("#");
+      Serial.print("DHT1_T:");
+      Serial.print(am2302.get_Temperature());
+      Serial.print("#");
+      Serial.print("DHT1_H:");
+      Serial.print(am2302.get_Humidity());
+      Serial.print("#");
+    } else {
+      Serial.print("DHT1_T:255#DHT1_H:255#");
+    }
 
    Serial.print("T1:");
    Serial.print(readThermistor(1));
