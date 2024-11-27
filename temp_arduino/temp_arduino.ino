@@ -32,14 +32,13 @@ float readThermistor(int i);
 
 void setup() {
    T0 = 25 + 273.15;                 //Temperature  T0 from datasheet, conversion from Celsius to kelvin
-
+   pinMode(PIR_SENSOR_PIN, INPUT);
    Serial.begin(115200);
    while (!Serial) {
       yield();
    }
 
-   int initStatus = am2302.begin();
-   if (initStatus == 0) {
+   if (am2302.begin()) {
       dhtInitialized = true; 
    } 
    delay(3000);
